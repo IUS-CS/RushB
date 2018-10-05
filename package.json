@@ -1,0 +1,35 @@
+{
+  "name": "project_mars",
+  "version": "1.0.0",
+  "description": "Phaser 3 Web Game ",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IUS-CS/RushB.git"
+  },
+  "keywords": [
+    "project",
+    "mars"
+  ],
+  "author": "Nick Manolov, Martin Bacala, Nick Curry",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/IUS-CS/RushB/issues"
+  },
+  "homepage": "https://github.com/IUS-CS/RushB#readme",
+  "dependencies": {
+    "phase-2-e": "^0.2.0",
+    "phaser": "^3.13.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-uglify": "^3.0.1"
+  }
+}
