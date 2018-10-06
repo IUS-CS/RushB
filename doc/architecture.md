@@ -25,4 +25,4 @@ During gameplay the user will interact with various componets of the game. For e
 
 # SAD Diagram
 UML Activity Diagram describing the workflow of the game.
-![SAD Diagram](ProjectMarsUMLDiagram.png)
+![SAD Diagram](ProjectMarsUMLDiagram.jpg)
