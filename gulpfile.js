@@ -21,10 +21,24 @@ gulp.task('messageBuild', function(){
 
  //Takes all .html files and places them in the dist folder.
  gulp.task('copyHTML', function(){
-     gulp.src('src/*.html')
-     .pipe(gulp.dest('dist'));
- });
+    gulp.src('src/*.html')
+    .pipe(gulp.dest('dist'));
+});
 
+//Takes all npm deps and places them in the dist folder.
+gulp.task('copyNPM', function(){
+    gulp.src([
+        'node_modules/phaser/dist/phaser.js'
+    ])
+    .pipe(gulp.dest('dist/js'));
+});
+
+gulp.task('copyPNG', function(){
+    gulp.src(
+        'src/assets/*.png'
+    )
+    .pipe(gulp.dest('dist/assets/'));
+});
 
  //Minify JavaScript files
 
@@ -41,4 +55,4 @@ gulp.task('scripts', function(){
     .pipe(gulp.dest('dist/js'));
 }); 
 
-gulp.task('build', ['messageBuild','copyHTML', 'scripts'])
+gulp.task('default', ['messageBuild','copyHTML', 'copyNPM','copyPNG', 'scripts'])
