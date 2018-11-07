@@ -44,15 +44,19 @@ gulp.task('copyPNG', function(){
 
  gulp.task('minifyJS', function(){
     gulp.src('src/js/*.js')
-    .pipe(uglify()).pipe(gulp.dest('dist/js'));
+    .pipe(gulp.dest('dist/js'));
 });
 
 //Scripts
 gulp.task('scripts', function(){
     gulp.src('src/js/*.js')
-    .pipe(concat('main.js'))
+    .pipe(concat('index.js'))
     .pipe(uglify())
     .pipe(gulp.dest('dist/js'));
 }); 
+gulp.task('copyJSON', function(){
+    gulp.src('src/assets/*.json')
+    .pipe(gulp.dest('dist/assets/'));
+});
 
-gulp.task('default', ['messageBuild','copyHTML', 'copyNPM','copyPNG', 'scripts'])
+gulp.task('default', ['messageBuild','copyHTML', 'copyNPM','copyPNG','minifyJS', 'copyJSON'])

@@ -20,25 +20,51 @@ var config = {
 var game = new Phaser.Game(config);
 
 function preload (){
-this.load.image('sky', 'assets/sky.png');
-this.load.image('ground', 'assets/platform.png');
-this.load.image('star', 'assets/star.png');
-this.load.image('bomb', 'assets/bomb.png');
+this.load.image('caveTileset','assets/cave-tileset.png')
+this.load.image('volcanoGround','assets/volcano-pack-5.png')
+this.load.image('volcanoBack','assets/Vulcan-volcano.png')
+this.load.tilemapTiledJSON("map", 'assets/level1.json')
+//this.load.image('sky', 'assets/sky.png');
+//this.load.image('ground', 'assets/platform.png');
+//this.load.image('star', 'assets/star.png');
+//this.load.image('bomb', 'assets/bomb.png');
 this.load.spritesheet('dude', 
     'assets/dude.png',
     { frameWidth: 32, frameHeight: 48 }
 );
+this.load.spritesheet('spaceman', 
+    'assets/spaceman.png',
+    { frameWidth: 180, frameHeight: 150 }
+);
 }
 
 function create (){
-    this.add.image(400, 300, 'sky');
-    this.add.image(200, 60, 'spaceman');
+    
     player = this.physics.add.sprite(100, 450, 'dude');
+    player2 = this.physics.add.sprite(200,450, 'spaceman')
+
+//map stuff
+const map = this.make.tilemap({key: "map"});
+
+const caveTileset = map.addTilesetImage("cave-tileset", "caveTileset")
+//const volcanoTileset = map.addTilesetImage("volcano-pack-5", "volcanoGround")
+//const volcanoBackgroundTileset = map.addTilesetImage("Vulcan-volcano", "background")
+
+
+
+//const groundLayer = map.createStaticLayer("Ground Player", volcanoTileset, 0, 0);
+//const worldLayer = map.createStaticLayer("World", caveTileset, 0, 0);
+//const backgroundLayer = map.createStaticLayer("Background",volcanoBackgroundTileset, 0, 0);
+
 
 player.setBounce(0.4);
 player.setCollideWorldBounds(true);
+player2.setBounce(0.4);
+player2.setCollideWorldBounds(true);
 
-this.anims.create({
+//game.camera.follow(player);
+
+this.anims.create({  
 key: 'left',
 frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
 frameRate: 10,
@@ -58,7 +84,12 @@ frameRate: 10,
 repeat: -1
 });
 
-
+this.anims.create({  
+    key: 'd',
+    frames: this.anims.generateFrameNumbers('spaceman', { start: 0, end: 7 }),
+    frameRate: 10,
+    repeat: -1
+    });
 
 platforms = this.physics.add.staticGroup();
 
@@ -163,6 +194,10 @@ if (cursors.up.isDown)
 {
 player.setVelocityY(-160);
 }
+if (cursors.left.isDown)
+{
+player2.setVelocityX(-160);
 
-
+player2.anims.play('d', true);
+}
 }
