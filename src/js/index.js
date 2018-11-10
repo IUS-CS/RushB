@@ -56,17 +56,6 @@ const worldLayer = map.createStaticLayer("platforms", platformTileset, 0,0);
 player = this.physics.add.sprite(100, 450, 'dude');
 player2 = this.physics.add.sprite(200,450, 'spaceman');
 
-
-//const volcanoTileset = map.addTilesetImage("volcano-pack-5", "volcanoGround")
-//const volcanoBackgroundTileset = map.addTilesetImage("Vulcan-volcano", "background")
-
-
-
-//const groundLayer = map.createStaticLayer("Ground Player", volcanoTileset, 0, 0);
-//const worldLayer = map.createStaticLayer("World", caveTileset, 0, 0);
-//const backgroundLayer = map.createStaticLayer("Background",volcanoBackgroundTileset, 0, 0);
-
-
 player.setBounce(0.4);
 player.setCollideWorldBounds(true);
 player2.setBounce(0.4);
@@ -101,13 +90,17 @@ this.anims.create({
     repeat: -1
     });
 
+
+
+this.physics.add.collider(player, platformTileset);
+
+/*
 platforms = this.physics.add.staticGroup();
-
 platforms.create(400, 600, 'ground').setScale(2).refreshBody();
-
 platforms.create(600, 450, 'ground');
 platforms.create(50, 350, 'ground');
 platforms.create(380, 120, 'ground');
+*/
 
 stars = this.physics.add.group({
 key: 'star',
@@ -121,9 +114,9 @@ child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
 
 });
 
-this.physics.add.collider(stars, platforms);
+//this.physics.add.collider(stars, platforms);
 
-this.physics.add.collider(player, platforms);
+this.physics.add.collider(player, platformTileset);
 //this.physics.add.overlap(player, stars, collectStar, null, this);
 
 
@@ -132,24 +125,13 @@ function collectStar (player, star) {
     score += 5;
     scoreText.setText('Score: ' + score);
 
- if (stars.countActive(true) === 0)
-{
-    stars.children.iterate(function (child) {
-
+    if (stars.countActive(true) === 0){
+        stars.children.iterate(function (child) {
         child.enableBody(true, child.x, 0, true, true);
-
     });
-
     var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
 
-    var bomb = bombs.create(x, 32, 'bomb');
-    bomb.setBounce(1);
-    bomb.setCollideWorldBounds(true);
-    bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-    bomb.allowGravity = false;
-
-}
-
+    }
 
 }
 
@@ -159,18 +141,6 @@ var score = 0;
 var scoreText;
 
 scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
-
-bombs = this.physics.add.group();
-
-this.physics.add.collider(bombs, platforms);
-this.physics.add.collider(player, bombs, hitBomb, null, this);
-
-function hitBomb (player, bomb){
-    this.physics.pause();
-    player.setTint(0xff0000);
-    player.anims.play('turn');
-    gameOver = true;
-}
 
 }//create
 
