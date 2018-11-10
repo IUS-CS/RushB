@@ -126,13 +126,11 @@ this.physics.add.collider(stars, platforms);
 this.physics.add.collider(player, platforms);
 //this.physics.add.overlap(player, stars, collectStar, null, this);
 
-/*
-function collectStar (player, star)
-{
-star.disableBody(true, true);
 
-score += 5;
-scoreText.setText('Score: ' + score);
+function collectStar (player, star) {
+    star.disableBody(true, true);
+    score += 5;
+    scoreText.setText('Score: ' + score);
 
  if (stars.countActive(true) === 0)
 {
@@ -151,7 +149,7 @@ scoreText.setText('Score: ' + score);
     bomb.allowGravity = false;
 
 }
-*/
+
 
 }
 
@@ -165,44 +163,31 @@ scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' }
 bombs = this.physics.add.group();
 
 this.physics.add.collider(bombs, platforms);
-
 this.physics.add.collider(player, bombs, hitBomb, null, this);
 
-function hitBomb (player, bomb)
-{
-this.physics.pause();
-
-player.setTint(0xff0000);
-
-player.anims.play('turn');
-
-gameOver = true;
+function hitBomb (player, bomb){
+    this.physics.pause();
+    player.setTint(0xff0000);
+    player.anims.play('turn');
+    gameOver = true;
 }
 
 }//create
 
 function update (){
-    if (cursors.left.isDown)
-{
-player.setVelocityX(-160);
+    if (cursors.left.isDown){
+        player.setVelocityX(-160);
+        player.anims.play('left', true);
+    }
+    else if (cursors.right.isDown){
+        player.setVelocityX(160);
+        player.anims.play('right', true);
+    }
+    else{
+        player.setVelocityX(0);
+        player.anims.play('turn');
+    }
 
-player.anims.play('left', true);
-}
-else if (cursors.right.isDown)
-{
-player.setVelocityX(160);
-
-player.anims.play('right', true);
-}
-else
-{
-player.setVelocityX(0);
-
-player.anims.play('turn');
-}
-
-if (cursors.up.isDown)
-{
-player.setVelocityY(-160);
-}
-}
+    if (cursors.up.isDown)
+        player.setVelocityY(-160);
+}//update
