@@ -3,12 +3,12 @@
 
 var config = {
     type: Phaser.AUTO,
-    width: 1000,
-    height: 608,
+    width: 1600,
+    height: 750,
     physics: {default: 'arcade',
     arcade: {
-        gravity: { y: 600 },
-        debug: false
+        gravity: { y: 700 },
+        debug: true
     }},
     scene: {
         preload: preload,
@@ -20,10 +20,11 @@ var config = {
 var game = new Phaser.Game(config);
 
 function preload (){
-this.load.image('caveTileset','assets/cave-tileset.png')
-this.load.image('volcanoGround','assets/volcano-pack-5.png')
-this.load.image('volcanoBack','assets/Vulcan-volcano.png')
-this.load.tilemapTiledJSON("map", 'assets/level1.json')
+
+this.load.image("platformSet","assets/Tileset.png");
+this.load.image("background","assets/background0.png");
+//this.load.image('volcanoBack','assets/Vulcan-volcano.png')
+this.load.tilemapTiledJSON("map", "assets/map1.json");
 //this.load.image('sky', 'assets/sky.png');
 //this.load.image('ground', 'assets/platform.png');
 //this.load.image('star', 'assets/star.png');
@@ -32,21 +33,30 @@ this.load.spritesheet('dude',
     'assets/dude.png',
     { frameWidth: 32, frameHeight: 48 }
 );
+/*
 this.load.spritesheet('spaceman', 
     'assets/spaceman.png',
     { frameWidth: 180, frameHeight: 150 }
 );
+*/
 }
 
 function create (){
     
-    player = this.physics.add.sprite(100, 450, 'dude');
-    player2 = this.physics.add.sprite(200,450, 'spaceman')
+   
 
 //map stuff
 const map = this.make.tilemap({key: "map"});
 
-const caveTileset = map.addTilesetImage("cave-tileset", "caveTileset")
+const platformTileset = map.addTilesetImage("tileset1", "platformSet");
+const background = map.addTilesetImage("background0","background");
+
+const belowLayer = map.createStaticLayer("background", background, 0,0);
+const worldLayer = map.createStaticLayer("platforms", platformTileset, 0,0);
+player = this.physics.add.sprite(100, 450, 'dude');
+player2 = this.physics.add.sprite(200,450, 'spaceman');
+
+
 //const volcanoTileset = map.addTilesetImage("volcano-pack-5", "volcanoGround")
 //const volcanoBackgroundTileset = map.addTilesetImage("Vulcan-volcano", "background")
 
@@ -114,8 +124,9 @@ child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
 this.physics.add.collider(stars, platforms);
 
 this.physics.add.collider(player, platforms);
-this.physics.add.overlap(player, stars, collectStar, null, this);
+//this.physics.add.overlap(player, stars, collectStar, null, this);
 
+/*
 function collectStar (player, star)
 {
 star.disableBody(true, true);
@@ -140,7 +151,7 @@ scoreText.setText('Score: ' + score);
     bomb.allowGravity = false;
 
 }
-
+*/
 
 }
 
@@ -193,11 +204,5 @@ player.anims.play('turn');
 if (cursors.up.isDown)
 {
 player.setVelocityY(-160);
-}
-if (cursors.left.isDown)
-{
-player2.setVelocityX(-160);
-
-player2.anims.play('d', true);
 }
 }
