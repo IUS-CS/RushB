@@ -1,12 +1,12 @@
-Martin Bacala
+# Martin Bacala
 -Asset management
 -Level design
 -Testing
-Nick Curry
+#Nick Curry
 -Git master
 -Scrum master
 -Testing
-Nick Manolov
+#Nick Manolov
 -Game physics
 -Sound design
 -Testing
