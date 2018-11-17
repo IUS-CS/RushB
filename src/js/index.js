@@ -4,7 +4,7 @@
 var config = {
     type: Phaser.AUTO,
     width: 1600,
-    height: 750,
+    height: 800,
     physics: {default: 'arcade',
     arcade: {
         gravity: { y: 700 },
@@ -42,25 +42,36 @@ this.load.spritesheet('spaceman',
 }
 
 function create (){
-    
-   
 
 //map stuff
 const map = this.make.tilemap({key: "map"});
-
 const platformTileset = map.addTilesetImage("tileset1", "platformSet");
 const background = map.addTilesetImage("background0","background");
 
 const belowLayer = map.createStaticLayer("background", background, 0,0);
 const worldLayer = map.createStaticLayer("platforms", platformTileset, 0,0);
+belowLayer.setCollisionByProperty({collides:true});
+worldLayer.setCollisionByProperty({collides:true});
+
+//player stuff
 player = this.physics.add.sprite(100, 450, 'dude');
-player2 = this.physics.add.sprite(200,450, 'spaceman');
 
 player.setBounce(0.4);
 player.setCollideWorldBounds(true);
-player2.setBounce(0.4);
-player2.setCollideWorldBounds(true);
 
+//camera stuff
+/*const camera = this.cameras.main;
+const cursors = this.input.keyboard.createCursorKeys();
+controls = new Phaser.Cameras.Controls.FixedKeyControl({
+    camera: camera,
+    left: cursors.left,
+    right: cursors.right,
+    up: cursors.up,
+    down: cursors.down,
+    speed: .5
+});
+//camera constraints
+camera.setBounds(0,0, map.widthInPixels, map.heightInPixels);*/
 //game.camera.follow(player);
 
 this.anims.create({  
@@ -93,6 +104,8 @@ this.anims.create({
 
 
 this.physics.add.collider(player, platformTileset);
+this.physics.add.collider(player, worldLayer);
+this.physics.add.collider(player, belowLayer);
 
 /*
 platforms = this.physics.add.staticGroup();
@@ -118,8 +131,6 @@ child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
 
 this.physics.add.collider(player, platformTileset);
 //this.physics.add.overlap(player, stars, collectStar, null, this);
-
-
 function collectStar (player, star) {
     star.disableBody(true, true);
     score += 5;
@@ -144,7 +155,8 @@ scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' }
 
 }//create
 
-function update (){
+function update (time){
+    //controls.update(delta);
     if (cursors.left.isDown){
         player.setVelocityX(-160);
         player.anims.play('left', true);
