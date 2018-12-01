@@ -71,15 +71,7 @@ player.setCollideWorldBounds(true);
 
 //camera stuff
 const camera = this.cameras.main;
-/*
-controls = new Phaser.Cameras.Controls.FixedKeyControl({
-    camera: camera,
-    left: cursors.left,
-    right: cursors.right,
-    up: cursors.up,
-    down: cursors.down,
-    speed: .5
-});*/
+
 //camera constraints
 this.cameras.main.setBounds(0,0, 3392, 1000);
 this.cameras.main.startFollow(player, true, .16, .16);//speed of the camera
@@ -118,18 +110,10 @@ this.physics.add.collider(player, platformTileset);
 this.physics.add.collider(player, worldLayer);
 this.physics.add.collider(player, belowLayer);
 
-/*
-platforms = this.physics.add.staticGroup();
-platforms.create(400, 600, 'ground').setScale(2).refreshBody();
-platforms.create(600, 450, 'ground');
-platforms.create(50, 350, 'ground');
-platforms.create(380, 120, 'ground');
-*/
-
 stars = this.physics.add.group({
 key: 'star',
-repeat: 9,
-setXY: { x: 12, y: 0, stepX: 70 }
+repeat: 16,
+setXY: { x: 120, y: 0, stepX: 70 }
 });
 
 stars.children.iterate(function (child) {
@@ -138,14 +122,14 @@ child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
 
 });
 
-//this.physics.add.collider(stars, platforms);
+this.physics.add.collider(stars, platformTileset);
+this.physics.add.collider(stars, worldLayer);
 
-//this.physics.add.collider(player, platformTileset);
-//this.physics.add.overlap(player, stars, collectStar, null, this);
+this.physics.add.overlap(player, stars, collectStar, null, this);
 function collectStar (player, star) {
     star.disableBody(true, true);
-    score += 5;
-    scoreText.setText('Score: ' + score);
+    //score += 5;
+    //scoreText.setText('Score: ' + score);
 
     if (stars.countActive(true) === 0){
         stars.children.iterate(function (child) {
@@ -157,12 +141,9 @@ function collectStar (player, star) {
 
 }
 cursors = this.input.keyboard.createCursorKeys();
-//cursors = this.input.keyboard.createCursorKeys();
 
-var score = 0;
-var scoreText;
-
-scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
+//var score = 0;
+//var scoreText = this.add.text(10, 500, "Score: 0", { fontSize: '24px', fill: '#000'});
 
 }//create
 
@@ -182,7 +163,7 @@ function update (time){
     }
 
     if (cursors.up.isDown)
-        player.setVelocityY(-700);
+        player.setVelocityY(-160);
 }//update
 
 function render(){
