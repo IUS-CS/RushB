@@ -3,8 +3,8 @@
 
 var config = {
     type: Phaser.AUTO,
-    width: 2560,
-    height: 960,
+    width: 1500,
+    height: 1100,
     physics: {default: 'arcade',
     arcade: {
         gravity: { y: 700 },
@@ -42,6 +42,7 @@ this.load.spritesheet('spaceman',
     { frameWidth: 180, frameHeight: 150 }
 );
 */
+
 }
 
 function create (){
@@ -50,32 +51,30 @@ function create (){
 const map = this.make.tilemap({key: "map"});
 const platformTileset = map.addTilesetImage("tileset1", "platformSet");
 const background = map.addTilesetImage("background0","background");
-//const newPlatform = map.addTilesetImage("test","testPlatforms");
 
 const belowLayer = map.createStaticLayer("background", background, 0,0);
 const worldLayer = map.createStaticLayer("platforms", platformTileset, 0,0);
-//const platformLayer = map.createStaticLayer("testPlatforms",newPlatform, 0,0);
-//belowLayer.setCollisionByProperty({collides:true});
+belowLayer.setCollisionByProperty({collides:true});
 worldLayer.setCollisionByProperty({collides:true});
-//platformLayer.setCollisionByProperty({collides:true});
 
 //player stuff
 player = this.physics.add.sprite(100, 450, 'dude');
 
-player.setBounce(0.4);
-this.physics.world.setBounds(0,0,3392,1050);
-//this.physics.world.bounds.height = belowLayer.height;
+player.setBounce(.4);
+this.cameras.main.setBounds(0, 0, 2600, 1500);
+this.physics.world.setBounds(0,0,2700,1500);
 
 player.setCollideWorldBounds(true);
-
 
 //camera stuff
 const camera = this.cameras.main;
 
 //camera constraints
-this.cameras.main.setBounds(0,0, 3392, 1000);
-this.cameras.main.startFollow(player, true, .16, .16);//speed of the camera
+
+this.cameras.main.startFollow(player, true, .16, .16);
+//speed of the camera
 this.cameras.main.setZoom(1.5);
+
 
 this.anims.create({  
 key: 'left',
@@ -104,16 +103,14 @@ this.anims.create({
     repeat: -1
     });
 
-
-
 this.physics.add.collider(player, platformTileset);
 this.physics.add.collider(player, worldLayer);
 this.physics.add.collider(player, belowLayer);
 
 stars = this.physics.add.group({
 key: 'star',
-repeat: 16,
-setXY: { x: 120, y: 0, stepX: 70 }
+repeat: 9,
+setXY: { x: 15, y: 100, stepX: 185 }
 });
 
 stars.children.iterate(function (child) {
@@ -122,8 +119,10 @@ child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
 
 });
 
-this.physics.add.collider(stars, platformTileset);
+//this.physics.add.collider(stars, platformTileset);
 this.physics.add.collider(stars, worldLayer);
+this.physics.add.collider(stars, belowLayer);
+//stars.setCollideWorldBounds(true);
 
 this.physics.add.overlap(player, stars, collectStar, null, this);
 function collectStar (player, star) {
@@ -162,8 +161,8 @@ function update (time){
         player.anims.play('turn');
     }
 
-    if (cursors.up.isDown)
-        player.setVelocityY(-160);
+    if (cursors.space.isDown)
+        player.setVelocityY(-300);
 }//update
 
 function render(){
