@@ -8,7 +8,7 @@ var config = {
     physics: {default: 'arcade',
     arcade: {
         gravity: { y: 700 },
-        debug: true
+        debug: false
     }},
     scene: {
         preload: preload,
@@ -36,12 +36,6 @@ this.load.spritesheet('dude',
     'assets/dude.png',
     { frameWidth: 32, frameHeight: 48 }
 );
-/*
-this.load.spritesheet('spaceman', 
-    'assets/spaceman.png',
-    { frameWidth: 180, frameHeight: 150 }
-);
-*/
 
 }
 
@@ -60,7 +54,9 @@ worldLayer.setCollisionByProperty({collides:true});
 //player stuff
 player = this.physics.add.sprite(100, 450, 'dude');
 
-player.setBounce(.4);
+player.setBounce(.3);
+
+//camera constraints
 this.cameras.main.setBounds(0, 0, 2600, 1500);
 this.physics.world.setBounds(0,0,2700,1500);
 
@@ -69,12 +65,11 @@ player.setCollideWorldBounds(true);
 //camera stuff
 const camera = this.cameras.main;
 
-//camera constraints
-
 this.cameras.main.startFollow(player, true, .16, .16);
 //speed of the camera
 this.cameras.main.setZoom(1.5);
 
+cursors = this.input.keyboard.createCursorKeys();
 
 this.anims.create({  
 key: 'left',
@@ -125,29 +120,21 @@ this.physics.add.collider(stars, belowLayer);
 //stars.setCollideWorldBounds(true);
 
 this.physics.add.overlap(player, stars, collectStar, null, this);
+
 function collectStar (player, star) {
     star.disableBody(true, true);
     //score += 5;
     //scoreText.setText('Score: ' + score);
 
     if (stars.countActive(true) === 0){
-        stars.children.iterate(function (child) {
-        child.enableBody(true, child.x, 0, true, true);
-    });
+        this.add.text(player.x, player.y, "Stars Left: 0", { fontSize: '24px', fill: '#000'});
     var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
-
+        }
     }
-
-}
-cursors = this.input.keyboard.createCursorKeys();
-
-//var score = 0;
-//var scoreText = this.add.text(10, 500, "Score: 0", { fontSize: '24px', fill: '#000'});
-
+    
 }//create
 
 function update (time){
-    //controls.update(delta);
     if (cursors.left.isDown){
         player.setVelocityX(-160);
         player.anims.play('left', true);
@@ -160,9 +147,9 @@ function update (time){
         player.setVelocityX(0);
         player.anims.play('turn');
     }
-
-    if (cursors.space.isDown)
-        player.setVelocityY(-300);
+    if (cursors.space.isDown && player.body.blocked.down){
+        player.setVelocityY(-500);   
+    }
 }//update
 
 function render(){
