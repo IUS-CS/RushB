@@ -18,10 +18,10 @@ Browser- The game will run inside the browser.
 # Additional Components and Packages
 Phaser - This is the JavaScript library that we will be using to produce a game. 
 
-Nodejs - Allows us to execute JavaScript outside the browser.
+Node.js - Allows us to execute JavaScript outside the browser.
 
 # Gameplay 
-During gameplay the user will interact with various componets of the game. For example as the player is trying to collect enough xp to move to the next level, enemies will attack the user. The user will have access to inventory so that they can have access to food, weapons , etc.
+During gameplay the user will interact with various components of the game. For example as the player is trying to collect objects across the level by jumping across platforms.
 
 # SAD Diagram
 UML Activity Diagram describing the workflow of the game.
