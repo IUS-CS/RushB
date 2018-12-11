@@ -23,20 +23,13 @@ var game = new Phaser.Game(config);
 function preload (){
 
 this.load.image("platformSet","assets/Tileset.png");
-//this.load.image("testPlatforms","assets/Tileset.png");
-
 this.load.image("background","assets/background0.png");
-//this.load.image('volcanoBack','assets/Vulcan-volcano.png')
 this.load.tilemapTiledJSON("map", "assets/map2.json");
-//this.load.image('sky', 'assets/sky.png');
-//this.load.image('ground', 'assets/platform.png');
 this.load.image('star', 'assets/star.png');
-//this.load.image('bomb', 'assets/bomb.png');
 this.load.spritesheet('dude', 
     'assets/dude.png',
     { frameWidth: 32, frameHeight: 48 }
 );
-
 }
 
 function create (){
@@ -45,9 +38,9 @@ function create (){
 const map = this.make.tilemap({key: "map"});
 const platformTileset = map.addTilesetImage("tileset1", "platformSet");
 const background = map.addTilesetImage("background0","background");
-
 const belowLayer = map.createStaticLayer("background", background, 0,0);
 const worldLayer = map.createStaticLayer("platforms", platformTileset, 0,0);
+
 belowLayer.setCollisionByProperty({collides:true});
 worldLayer.setCollisionByProperty({collides:true});
 
@@ -114,24 +107,21 @@ child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
 
 });
 
-//this.physics.add.collider(stars, platformTileset);
 this.physics.add.collider(stars, worldLayer);
 this.physics.add.collider(stars, belowLayer);
-//stars.setCollideWorldBounds(true);
-
 this.physics.add.overlap(player, stars, collectStar, null, this);
 
 function collectStar (player, star) {
     star.disableBody(true, true);
-    //score += 5;
-    //scoreText.setText('Score: ' + score);
 
     if (stars.countActive(true) === 0){
         this.add.text(player.x, player.y, "Stars Left: 0", { fontSize: '24px', fill: '#000'});
     var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
         }
     }
-    
+
+cursors = this.input.keyboard.createCursorKeys();
+
 }//create
 
 function update (time){
