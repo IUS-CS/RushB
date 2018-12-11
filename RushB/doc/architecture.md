@@ -21,7 +21,7 @@ Phaser - This is the JavaScript library that we will be using to produce a game.
 Node.js - Allows us to execute JavaScript outside the browser.
 
 # Gameplay 
-During gameplay the user will interact with various components of the game. For example the player is trying to collect objects across the level by jumping across platforms.
+During gameplay the user will interact with various components of the game. For example as the player is trying to collect objects across the level by jumping across platforms.
 
 # SAD Diagram
 UML Activity Diagram describing the workflow of the game.
