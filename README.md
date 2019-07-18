@@ -12,11 +12,11 @@ The game will be written in HTML and JavaScript and will make use of the Phaser 
 
 # Features
 
-Users will be able to jump onto platforms. The player will be able to collect items and store them in an inventory. There is a camera that will follow along as the character moves. The character will be controlled by the user with arrows on a keyboard. Users will be able to make Onion Man jump onto platforms by pressing the space bar.
+Users will be able to jump onto platforms. The player will be able to collect items and store them in an inventory. There is a camera that will follow along as the character moves. The character will be controlled by the user with arrows on a keyboard and jump onto platforms by pressing the space bar.
 
 # Usage
 
-The idea is that the video game would be playable through any modern web browser via a web server.
+The idea is that the video game would be playable through any modern web browser.
 
 # License
 This game is a demonstration for educational purposes. Refer to our license for details.
