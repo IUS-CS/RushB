@@ -22,6 +22,14 @@ players[socket.id] = {
   playerId: socket.id,
   team: (Math.floor(Math.random() * 2) == 0) ? 'red' : 'blue'
 };
+
+function getAllPlayers(){
+  Object.keys(io.sockets.connected).forEach(function(socketID){
+    var player = io.sockets.connected[socketID].player;
+    if(player) players.push(player);
+  })
+  return players;
+}
 // send the players object to the new player
 socket.emit('currentPlayers', players);
 // update all other players of the new player
@@ -29,7 +37,8 @@ socket.broadcast.emit('newPlayer', players[socket.id]);
 
   socket.on('disconnect', function () {
     console.log('user disconnected');
-
+//sends new player the list of already connected players
+socket.emit('allplayers',getAllPlayers());
 // remove this player from our players object
 delete players[socket.id];
 // emit a message to all players to remove this player
@@ -38,6 +47,6 @@ io.emit('disconnect', socket.id);
   });
 });
 
-server.listen(8081, function () {
+server.listen(8080, function () {
   console.log(`Listening on ${server.address().port}`);
 });

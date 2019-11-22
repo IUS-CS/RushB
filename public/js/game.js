@@ -62,6 +62,7 @@ worldLayer.setCollisionByProperty({collides:true});
 
 //player stuff
 player = this.physics.add.sprite(100, 450, 'dude');
+Game.addNewPlayer
 
 player.setBounce(.4);
 this.cameras.main.setBounds(0, 0, 2600, 1500);
@@ -143,6 +144,7 @@ function collectStar (player, star) {
 
 }
 cursors = this.input.keyboard.createCursorKeys();
+Client.askNewPlayer();
 
 //var score = 0;
 //var scoreText = this.add.text(10, 500, "Score: 0", { fontSize: '24px', fill: '#000'});
