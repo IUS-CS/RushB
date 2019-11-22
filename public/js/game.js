@@ -69,16 +69,28 @@ this.physics.world.setBounds(0,0,2700,1500);
 
 player.setCollideWorldBounds(true);
 
+//player socket init
+var self = this;
+  this.socket = io();
+  this.socket.on('currentPlayers', function (players) {
+    Object.keys(players).forEach(function (id) {
+      if (players[id].playerId === self.socket.id) {
+        addPlayer(self, players[id]);
+      }
+    });
+  });
+
 //camera stuff
 const camera = this.cameras.main;
 
 //camera constraints
-
 this.cameras.main.startFollow(player, true, .16, .16);
+
 //speed of the camera
 this.cameras.main.setZoom(1.5);
 
 
+//animations
 this.anims.create({  
 key: 'left',
 frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
@@ -171,4 +183,16 @@ function update (time){
 function render(){
     game.debug(game.camera, 32, 32);
     game.debug.spriteCoords(player, 32, 500);
+}
+
+function addPlayer(self, playerInfo) {
+  self.player = self.physics.add.image(playerInfo.x, playerInfo.y, 'player').setOrigin(0.5, 0.5).setDisplaySize(53, 40);
+  if (playerInfo.team === 'blue') {
+    self.player.setTint(0x0000ff);
+  } else {
+    self.player.setTint(0xff0000);
+  }
+  self.player.setDrag(100);
+  self.player.setAngularDrag(100);
+  self.player.setMaxVelocity(200);
 }
