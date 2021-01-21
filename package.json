@@ -28,7 +28,7 @@
     "package.json": "^2.0.1",
     "phase-2-e": "^0.2.1",
     "phaser": "^3.15.1",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.4.0"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
